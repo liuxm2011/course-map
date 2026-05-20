@@ -17,19 +17,8 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDrag
       onDragStart={e => { e.stopPropagation(); onDragStart(e, course.id); }}
       style={{
         ...style,
-        borderRadius: 5,
-        padding: '4px 8px 4px 6px',
-        fontSize: 11,
-        fontWeight: 500,
-        position: 'relative',
-        lineHeight: 1.35,
-        boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 1,
         cursor: dragging ? 'grabbing' : 'grab',
         opacity: dragging ? 0.4 : 1,
-        transition: 'box-shadow 0.15s, opacity 0.15s',
       }}
       className="course-card"
     >
