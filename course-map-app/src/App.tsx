@@ -121,7 +121,7 @@ const App: React.FC = () => {
     setCourses(prev =>
       prev.map(c =>
         c.id === courseId
-          ? { ...c, section: targetSec, semester: targetSem }
+          ? { ...c, section: targetSec, semester: targetSem, category: targetSec }
           : c
       )
     );
