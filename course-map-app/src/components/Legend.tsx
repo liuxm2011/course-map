@@ -1,5 +1,4 @@
 import React from 'react';
-import { BADGE_CONFIG } from '../data/styles';
 
 const legendItems: { color: string; label: string }[] = [
   { color: '#5B8DB8', label: '通识课程' },

@@ -52,8 +52,6 @@ const App: React.FC = () => {
 
   // Stats
   const totalCourses = courses.length;
-  const activeCount = courses.filter(c => c.status === 'active').length;
-  const deletedCount = courses.filter(c => c.status === 'deleted').length;
 
   // Handlers
   const handleDelete = useCallback((id: string) => {
@@ -72,12 +70,6 @@ const App: React.FC = () => {
       badge: data.badge,
     };
     setCourses(prev => [...prev, newCourse]);
-  }, []);
-
-  const handleReset = useCallback(() => {
-    if (confirm('确定要重置为原始课程数据吗？所有修改将丢失。')) {
-      setCourses(initialCourses);
-    }
   }, []);
 
   // Drag handlers
