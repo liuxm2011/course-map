@@ -59,7 +59,7 @@ const App: React.FC = () => {
     for (const sem of SEMESTER_NUMS) {
       result[sem] = courses
         .filter(c => c.semester === sem && c.status === 'active' && c.section !== 'practice')
-        .reduce((sum, c) => sum + c.hours_theory + c.hours_practice, 0);
+        .reduce((sum, c) => sum + c.hours_weekly, 0);
     }
     return result;
   }, [courses]);
@@ -197,13 +197,13 @@ const App: React.FC = () => {
             <div className="col-sems">
               <div className="sem-col">
                 <div className="sem-label" />
-                <div className="sem-hours">学时</div>
+                <div className="sem-hours">周学时</div>
               </div>
               {SEMESTER_NUMS.map(sem => (
                 <div className="sem-col" key={sem}>
                   <div className="sem-label">{SEMESTER_LABELS[sem]}</div>
                   <div className="sem-hours">
-                    {semesterHours[sem] > 0 ? `${semesterHours[sem]}h` : '—'}
+                    {semesterHours[sem] > 0 ? `${semesterHours[sem]}节` : '—'}
                   </div>
                 </div>
               ))}
