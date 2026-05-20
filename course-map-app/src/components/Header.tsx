@@ -9,13 +9,12 @@ interface HeaderProps {
   onViewChange: (v: 'map' | 'stats') => void;
   onAddCourse: () => void;
   onExport: () => void;
-  totalCourses: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   majors, currentMajorId, onMajorChange,
   view, onViewChange,
-  onAddCourse, onExport, totalCourses,
+  onAddCourse, onExport,
 }) => {
   return (
     <header className="header">
@@ -51,8 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => onViewChange('stats')}
           >统计分析</button>
         </div>
-        <span className="stat-badge">共 {totalCourses} 门</span>
-        {view === 'map' && (
+{view === 'map' && (
           <>
             <button className="btn-add" onClick={onAddCourse}>添加课程</button>
             <button className="btn-export" onClick={onExport}>导出地图</button>

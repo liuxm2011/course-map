@@ -64,8 +64,6 @@ const App: React.FC = () => {
     return result;
   }, [courses]);
 
-  const totalCourses = courses.length;
-
   // API helpers
   const apiPut = useCallback((courseId: string, patch: Partial<Course>) => {
     fetch(`/api/majors/${currentMajorId}/courses/${courseId}`, {
@@ -183,7 +181,6 @@ const App: React.FC = () => {
         onViewChange={setView}
         onAddCourse={() => setShowModal(true)}
         onExport={handleExport}
-        totalCourses={totalCourses}
       />
 
       {loading && (
