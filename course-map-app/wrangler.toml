@@ -5,4 +5,4 @@ pages_build_output_dir = "dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "course-map-db"
-database_id = "placeholder-run-wrangler-d1-create-to-get-id"
+database_id = "f3c2a7cf-460d-477a-801d-c1341f85d7cf"
