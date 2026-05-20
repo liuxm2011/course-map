@@ -1,0 +1,67 @@
+import React from 'react';
+import type { Course } from '../types';
+import { getCourseStyle, BADGE_CONFIG } from '../data/styles';
+
+interface CourseCardProps {
+  course: Course;
+  dragging: boolean;
+  onDragStart: (e: React.DragEvent<HTMLDivElement>, id: string) => void;
+  onDelete: (id: string) => void;
+}
+
+export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDragStart, onDelete }) => {
+  const style = getCourseStyle(course);
+
+  return (
+    <div
+      draggable
+      onDragStart={e => { e.stopPropagation(); onDragStart(e, course.id); }}
+      style={{
+        ...style,
+        borderRadius: 5,
+        padding: '4px 8px 4px 6px',
+        fontSize: 11,
+        fontWeight: 500,
+        position: 'relative',
+        lineHeight: 1.35,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
+        display: 'flex',
+        alignItems: 'baseline',
+        gap: 4,
+        cursor: dragging ? 'grabbing' : 'grab',
+        opacity: dragging ? 0.4 : 1,
+        transition: 'box-shadow 0.15s, opacity 0.15s',
+      }}
+      className="course-card"
+    >
+      <span className="course-name">{course.name}</span>
+      {course.credits && <span className="course-credits">{course.credits}</span>}
+      {course.badge && (
+        <span
+          className="course-badge"
+          style={{
+            position: 'absolute',
+            top: -4,
+            right: -4,
+            fontSize: 8,
+            padding: '1px 4px',
+            borderRadius: 3,
+            fontWeight: 700,
+            color: '#fff',
+            lineHeight: 1.4,
+            background: BADGE_CONFIG[course.badge].bg,
+          }}
+        >
+          {BADGE_CONFIG[course.badge].label}
+        </span>
+      )}
+      <button
+        className="course-delete"
+        onClick={e => { e.stopPropagation(); onDelete(course.id); }}
+        title="删除此课程"
+      >
+        ×
+      </button>
+    </div>
+  );
+};
