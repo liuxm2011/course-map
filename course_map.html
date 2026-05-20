@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据科学与大数据技术专业课程地图（AI时代改革版）</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+  :root {
+    --general: #5B8DB8;       /* 通识课程 - 蓝色 */
+    --core: #E8A838;          /* 专业核心课 - 橙色 */
+    --subject: #4BA069;       /* 学科课程 - 绿色 */
+    --practice: #C06060;      /* 集中性教学实践/独立实践课 - 红色 */
+    --base: #7B6BB5;          /* 专业基础课 - 紫色 */
+    --elective: #5AABB0;      /* 专业选修课 - 青色 */
+    --new: #D45A5A;           /* 新增课程 - 红色标记 */
+    --reformed: #E07B30;      /* 改造升级 - 橙色标记 */
+    --deleted: #999;          /* 删除 */
+    --bg: #F5F7FA;
+    --header-bg: #2C3E50;
+    --border: #D0D7E3;
+    --text: #1A2332;
+    --text-light: #fff;
+    --shadow: 0 2px 6px rgba(0,0,0,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .page-wrapper {
+    width: 1480px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  /* ===== Header ===== */
+  .map-header {
+    background: var(--header-bg);
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    padding: 14px 20px 10px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .map-header h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .map-header .subtitle {
+    font-size: 11px;
+    opacity: 0.75;
+    margin-top: 3px;
+  }
+  .header-meta {
+    text-align: right;
+    font-size: 10px;
+    opacity: 0.7;
+    line-height: 1.8;
+  }
+
+  /* ===== Main Grid ===== */
+  .map-grid {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+  }
+
+  /* Column headers */
+  .col-headers {
+    display: grid;
+    grid-template-columns: 64px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    background: var(--header-bg);
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+  }
+  .col-group {
+    display: contents;
+  }
+  .col-header {
+    padding: 8px 4px;
+    text-align: center;
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    border-right: 1px solid rgba(255,255,255,0.15);
+  }
+  .col-header.grade {
+    background: rgba(255,255,255,0.1);
+    font-size: 13px;
+    grid-column: span 2;
+  }
+  .col-header.sem {
+    font-size: 11px;
+    font-weight: 400;
+    opacity: 0.9;
+    padding: 6px 4px;
+  }
+  .col-header.entry {
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* Sub-header row for semesters */
+  .col-sems {
+    display: grid;
+    grid-template-columns: 64px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    background: #3D5068;
+    border-bottom: 2px solid var(--border);
+  }
+  .sem-label {
+    padding: 5px 4px;
+    text-align: center;
+    color: rgba(255,255,255,0.85);
+    font-size: 10px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Content area */
+  .map-body {
+    display: grid;
+    grid-template-columns: 64px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    min-height: 600px;
+  }
+
+  /* Row bands */
+  .row-band {
+    display: contents;
+  }
+
+  /* Category label column */
+  .cat-label {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-weight: 700;
+    font-size: 11px;
+    color: #fff;
+    padding: 8px 4px;
+    letter-spacing: 1px;
+  }
+  .cat-general  { background: var(--general); }
+  .cat-math     { background: #3A7FBF; }
+  .cat-base     { background: var(--base); }
+  .cat-core     { background: #B07020; }
+  .cat-elective { background: #2A8A8F; }
+  .cat-practice { background: #A04040; }
+  .cat-new      { background: #B03030; }
+
+  /* Semester cell */
+  .sem-cell {
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 6px 5px;
+    vertical-align: top;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sem-cell:last-child { border-right: none; }
+
+  /* Course cards */
+  .course {
+    border-radius: 5px;
+    padding: 4px 6px;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: #fff;
+    position: relative;
+    cursor: default;
+    line-height: 1.35;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .course .credits {
+    font-size: 9px;
+    opacity: 0.85;
+    font-weight: 400;
+  }
+  .course .badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 8px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #fff;
+  }
+  .badge-new     { background: #C0392B; }
+  .badge-reform  { background: #E07B30; }
+  .badge-del     { background: #888; }
+  .badge-adjust  { background: #6C3483; }
+  .badge-keep    { background: #27AE60; }
+
+  /* Color variants */
+  .c-general  { background: var(--general); }
+  .c-math     { background: #2980B9; }
+  .c-base     { background: var(--base); }
+  .c-core     { background: var(--core); color: #1A1A1A; }
+  .c-elective { background: var(--elective); }
+  .c-practice { background: var(--practice); }
+  .c-new      { background: #C0392B; border: 2px solid #922B21; }
+  .c-deleted  { background: #AAA; text-decoration: line-through; opacity: 0.7; }
+  .c-reform   { background: var(--reformed); color: #1A1A1A; }
+  .c-adjust   { background: #8E44AD; }
+  .c-campus   { background: #16A085; }
+
+  /* Arrow connector (simple CSS) */
+  .arrow-right::after {
+    content: '→';
+    color: #888;
+    font-size: 10px;
+    margin: 0 2px;
+  }
+
+  /* Legend */
+  .legend-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    padding: 10px 16px;
+    background: #F0F3F8;
+    border-top: 1px solid var(--border);
+    border-radius: 0 0 10px 10px;
+    align-items: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+  }
+  .legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .legend-badge {
+    font-size: 8px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 700;
+  }
+  .legend-title {
+    font-weight: 700;
+    font-size: 10.5px;
+    margin-right: 4px;
+  }
+
+  /* Divider line between band groups */
+  .band-divider {
+    grid-column: 1 / -1;
+    height: 3px;
+    background: linear-gradient(90deg, #e0e0e0, #f0f0f0);
+  }
+
+  .section-title {
+    grid-column: 1 / -1;
+    background: #EEF2F7;
+    padding: 4px 10px;
+    font-weight: 700;
+    font-size: 10.5px;
+    color: #3D5068;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.5px;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    gap: 20px;
+    padding: 8px 16px;
+    background: #EBF0F8;
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+  }
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stat-num {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .stat-num.red   { color: #C0392B; }
+  .stat-num.green { color: #27AE60; }
+  .stat-num.blue  { color: #2980B9; }
+  .stat-num.orange{ color: #E07B30; }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <div class="map-header">
+    <div>
+      <h1>数据科学与大数据技术专业课程地图（AI时代改革版）</h1>
+      <div class="subtitle">核心方向：从"大数据工程师"转型为"AI时代数据+智能应用复合人才" | 专业代码：080910T | 适用届次：2025级及以后</div>
+    </div>
+    <div class="header-meta">
+      萍乡学院 · 信息与计算机工程学院<br>
+      数据科学与大数据技术教研室<br>
+      编制：2026年04月
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="map-grid">
+
+    <!-- Grade headers -->
+    <div class="col-headers">
+      <div class="col-header entry">入学前</div>
+      <div class="col-header grade">一年级</div>
+      <div class="col-header grade">二年级</div>
+      <div class="col-header grade">三年级</div>
+      <div class="col-header grade">四年级</div>
+    </div>
+
+    <!-- Semester sub-headers -->
+    <div class="col-sems">
+      <div class="sem-label">—</div>
+      <div class="sem-label">学期1</div>
+      <div class="sem-label">学期2</div>
+      <div class="sem-label">学期3</div>
+      <div class="sem-label">学期4</div>
+      <div class="sem-label">学期5</div>
+      <div class="sem-label">学期6</div>
+      <div class="sem-label">学期7</div>
+      <div class="sem-label">学期8</div>
+    </div>
+
+    <!-- ===== BODY ===== -->
+    <div class="map-body">
+
+      <!-- SECTION: 通识教育课程（不变） -->
+      <div class="section-title">通识教育课程（保持不变）</div>
+
+      <!-- Row: 思政系列 -->
+      <div class="cat-label cat-general" style="grid-row: span 2;">思<br>政<br>通<br>识</div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell">
+        <div class="course c-general">马克思主义基本原理 <span class="credits">3学分</span></div>
+        <div class="course c-general">大学生心理健康教育 <span class="credits">2学分</span></div>
+        <div class="course c-general">劳动教育概论 <span class="credits">1学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-general">思想道德与法治 <span class="credits">3学分</span></div>
+        <div class="course c-general">形势与政策Ⅱ <span class="credits">1学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-general">中国近现代史纲要 <span class="credits">3学分</span></div>
+        <div class="course c-general">习近平新时代中国特色社会主义思想概论 <span class="credits">3学分</span></div>
+        <div class="course c-general">形势与政策Ⅲ</div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-general">毛泽东思想和中国特色社会主义理论体系概论 <span class="credits">5学分</span></div>
+        <div class="course c-general">中国共产党党史 <span class="credits">2学分</span></div>
+        <div class="course c-general">形势与政策Ⅳ</div>
+      </div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+
+      <!-- Row: 体育/外语/职业 -->
+      <div class="sem-cell">
+        <div class="course c-general">形势与政策Ⅰ <span class="credits">1学分</span></div>
+        <div class="course c-general">大学体育1</div>
+        <div class="course c-general">大学外语1</div>
+        <div class="course c-general">大学生职业发展</div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-general">大学体育2</div>
+        <div class="course c-general">大学外语2</div>
+        <div class="course c-general">创业基础</div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-general">大学体育3</div>
+        <div class="course c-general">大学外语3</div>
+        <div class="course c-general">艺术中国</div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-general">大学体育4</div>
+        <div class="course c-general">大学外语4</div>
+        <div class="course c-general">公共艺术</div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-general">大学体育5</div>
+      </div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell">
+        <div class="course c-general">大学生体质健康测试</div>
+        <div class="course c-general">专业英语 <span class="credits">2学分</span>
+          <span class="badge badge-keep">保留</span>
+        </div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-practice">毕业实习 <span class="credits">4学分</span></div>
+      </div>
+
+      <!-- Divider -->
+      <div class="band-divider"></div>
+
+      <!-- SECTION: 数学基础（全保留） -->
+      <div class="section-title">数学基础课程（全面保留 — AI时代最重要的不贬值资产）</div>
+
+      <div class="cat-label cat-math">数<br>学<br>基<br>础</div>
+      <div class="sem-cell">
+        <div class="course c-math">高等数学Ⅰ <span class="credits">5学分</span><span class="badge badge-keep">保留</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-math">高等数学Ⅱ <span class="credits">4学分</span><span class="badge badge-keep">保留</span></div>
+        <div class="course c-math">线性代数 <span class="credits">3学分</span><span class="badge badge-keep">保留</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-math">概率论与数理统计 <span class="credits">3学分</span><span class="badge badge-keep">保留</span></div>
+        <div class="course c-math">大学物理实验 <span class="credits">1.5学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-math">离散数学 <span class="credits">4学分</span><span class="badge badge-keep">保留</span></div>
+      </div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+
+      <!-- Divider -->
+      <div class="band-divider"></div>
+
+      <!-- SECTION: 专业基础课 -->
+      <div class="section-title">专业基础课程</div>
+
+      <!-- Row: 计算机基础 -->
+      <div class="cat-label cat-base" style="grid-row: span 2;">专<br>业<br>基<br>础</div>
+      <div class="sem-cell">
+        <div class="course c-base">计算机导论 <span class="credits">3学分</span><span class="badge badge-keep">保留</span></div>
+        <div class="course c-reform">程序设计基础（C语言） <span class="credits">5学分</span>
+          <span class="badge badge-reform">改造</span>
+        </div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-reform">数据库技术与应用 <span class="credits">3学分</span>
+          <span class="badge badge-reform">改造</span>
+        </div>
+        <div class="course c-base">大学物理1 <span class="credits">3学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-base">数据结构与算法 <span class="credits">3学分</span><span class="badge badge-keep">保留</span></div>
+        <div class="course c-base">大学物理2 <span class="credits">3学分</span></div>
+        <div class="course c-base">Linux实践 <span class="credits">1学分</span><span class="badge badge-keep">保留</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-base">单片机原理与接口技术 <span class="credits">3学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-base">计算机网络 <span class="credits">3学分</span><span class="badge badge-keep">保留</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-base">操作系统 <span class="credits">3学分</span><span class="badge badge-keep">保留</span></div>
+      </div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+
+      <!-- Row: 编程与AI入门 -->
+      <div class="sem-cell">
+        <div class="course c-base">编程思维与人工智能导论 <span class="credits">2学分</span></div>
+        <div class="course c-base">电脑与电子线路 <span class="credits">2学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-new">★ AI辅助编程与工具工程 <span class="credits">2学分·全实践</span>
+          <span class="badge badge-new">新增</span>
+        </div>
+        <div class="course c-deleted">Java程序设计 3学分
+          <span class="badge badge-del">删除</span>
+        </div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-new">★ AI伦理、法规与负责任数据实践 <span class="credits">1.5学分</span>
+          <span class="badge badge-new">新增</span>
+        </div>
+        <div class="course c-base">数字电子技术 <span class="credits">3学分</span></div>
+        <div class="course c-deleted">JavaWeb应用开发 3学分
+          <span class="badge badge-del">删除</span>
+        </div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-base">机器学习 <span class="credits">3学分·第4→5学期</span><span class="badge badge-reform">改造</span></div>
+        <div class="course c-base">Web交互开发技术 <span class="credits">3学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-base">机器学习 <span class="credits">3学分</span><span class="badge badge-reform">改造</span></div>
+      </div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+
+      <!-- Divider -->
+      <div class="band-divider"></div>
+
+      <!-- SECTION: 专业核心课 -->
+      <div class="section-title">专业核心课程（大数据方向）</div>
+
+      <!-- Row: 核心课 -->
+      <div class="cat-label cat-core" style="grid-row: span 2;">专<br>业<br>核<br>心</div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell">
+        <div class="course c-base">数据库原理与应用 <span class="credits">3学分</span></div>
+        <div class="course c-base">C程序设计 <span class="credits">3学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-reform">Python数据采集 <span class="credits">3学分</span>
+          <span class="badge badge-reform">改造</span>
+        </div>
+        <div class="course c-base">智能视听技术概论 <span class="credits">2学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-new">★ 大模型原理与工程应用 <span class="credits">3学分</span>
+          <span class="badge badge-new">新增</span>
+        </div>
+        <div class="course c-reform">大数据技术与应用 <span class="credits">3学分·选修</span>
+          <span class="badge badge-reform">改造</span>
+        </div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-reform">智能数据管理与知识检索 <span class="credits">3学分·选修</span>
+          <span class="badge badge-reform">改造</span>
+        </div>
+        <div class="course c-campus">数据分析与应用（校企合作） <span class="credits">3学分</span>
+          <span class="badge badge-reform">改造</span>
+        </div>
+        <div class="course c-adjust">大数据可视化 <span class="credits">1.5学分·选修</span>
+          <span class="badge badge-adjust">调前</span>
+        </div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-reform">大数据实时计算 <span class="credits">2.5学分·选修</span>
+          <span class="badge badge-reform">改造</span>
+        </div>
+        <div class="course c-campus">网络应用与安全（校企合作） <span class="credits">2.5学分</span>
+          <span class="badge badge-keep">保留</span>
+        </div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-deleted">人工智能与信息社会 2学分·必修
+          <span class="badge badge-del">删除</span>
+        </div>
+        <div class="course c-deleted">大数据可视化 1.5学分·选修
+          <span class="badge badge-adjust">已前移</span>
+        </div>
+      </div>
+      <div class="sem-cell"></div>
+
+      <!-- Row: AI方向已移除 -->
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell">
+        <div class="course c-base">数据库原理与应用 <span class="credits">3学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-deleted">（原AI方向选修已整体移除）<br>人工智能导论/深度学习/计算机视觉/AI教育应用
+          <span class="badge badge-del">删除</span>
+        </div>
+      </div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+
+      <!-- Divider -->
+      <div class="band-divider"></div>
+
+      <!-- SECTION: 实践课程 -->
+      <div class="section-title">集中实践教学环节</div>
+
+      <div class="cat-label cat-practice" style="grid-row: span 1;">实<br>践<br>环<br>节</div>
+      <div class="sem-cell">
+        <div class="course c-practice">程序设计能力训练 <span class="credits">2学分</span></div>
+      </div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell">
+        <div class="course c-practice">专业应用基础实训 <span class="credits">2学分</span></div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-reform">数据分析项目开发实训 <span class="credits">2学分·2周</span>
+          <span class="badge badge-reform">规范化</span>
+        </div>
+      </div>
+      <div class="sem-cell">
+        <div class="course c-reform">大数据综合实践 <span class="credits">4学分·4周</span>
+          <span class="badge badge-reform">规范化</span>
+        </div>
+        <div class="course c-practice">专业应用综合实训 <span class="credits">2学分</span></div>
+      </div>
+      <div class="sem-cell"></div>
+      <div class="sem-cell">
+        <div class="course c-reform">毕业设计（AI系统开发类） <span class="credits">8学分</span>
+          <span class="badge badge-reform">开放新题型</span>
+        </div>
+      </div>
+
+    </div><!-- end map-body -->
+
+    <!-- Stats bar -->
+    <div class="stats-bar">
+      <div style="font-weight:700; font-size:11px; color:#3D5068; margin-right:8px;">改革变化汇总：</div>
+      <div class="stat-item">
+        <div class="stat-num red">-19.5</div>
+        <div>学分删除<br><span style="color:#666">Java(3)+JavaWeb(3)+AI与信息社会(2)+AI方向4门(11.5)</span></div>
+      </div>
+      <div style="color:#ccc">|</div>
+      <div class="stat-item">
+        <div class="stat-num green">+6.5</div>
+        <div>学分新增<br><span style="color:#666">AI辅助编程(2)+大模型原理(3)+AI伦理(1.5)</span></div>
+      </div>
+      <div style="color:#ccc">|</div>
+      <div class="stat-item">
+        <div class="stat-num orange">8门</div>
+        <div>课程改造升级</div>
+      </div>
+      <div style="color:#ccc">|</div>
+      <div class="stat-item">
+        <div class="stat-num blue">2门</div>
+        <div>学期调整</div>
+      </div>
+      <div style="color:#ccc">|</div>
+      <div style="font-size:10px; color:#555; max-width:300px; line-height:1.5;">
+        净变化：-13学分 → 可用于扩充实践项目（+3学分）或降低毕业总学分要求
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend-bar">
+      <span class="legend-title">课程图示：</span>
+
+      <div class="legend-item"><div class="legend-dot" style="background:var(--general)"></div>通识课程</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2980B9"></div>数学/基础课</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--base)"></div>专业基础课</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--reformed);"></div>专业核心课</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--elective)"></div>专业选修课</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--practice)"></div>集中实践课</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#16A085"></div>校企合作课</div>
+
+      <div style="width:1px;height:14px;background:#ccc;margin:0 4px"></div>
+
+      <div class="legend-item"><span class="legend-badge" style="background:#C0392B">新增</span>新增课程（3门）</div>
+      <div class="legend-item"><span class="legend-badge" style="background:#E07B30">改造</span>改造升级（8门）</div>
+      <div class="legend-item"><span class="legend-badge" style="background:#888">删除</span>删除/合并（6门）</div>
+      <div class="legend-item"><span class="legend-badge" style="background:#6C3483">调前</span>学期前移</div>
+      <div class="legend-item"><span class="legend-badge" style="background:#27AE60">保留</span>保留强化</div>
+
+      <div style="margin-left:auto;font-size:10px;color:#888">★ 核心新增课程</div>
+    </div>
+
+  </div><!-- end map-grid -->
+
+</div><!-- end page-wrapper -->
+</body>
+</html>
