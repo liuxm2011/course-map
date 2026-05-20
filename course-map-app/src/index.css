@@ -691,19 +691,19 @@ body {
 }
 
 .modal-row {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
+  display: grid;
+  gap: 16px;
 }
+.modal-row--2col { grid-template-columns: 2fr 1fr; }
+.modal-row--3col { grid-template-columns: 2fr 1fr 1fr; }
+.modal-row--4col { grid-template-columns: repeat(4, 1fr); }
 
 .modal-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  flex: 1;
+  gap: 6px;
   min-width: 0;
 }
-.modal-field--grow { flex: 2; }
 
 .modal-hint {
   font-size: 13px;

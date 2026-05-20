@@ -56,9 +56,9 @@ export const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose,
         </div>
         <form onSubmit={handleSubmit} className="modal-form">
           {/* Row 1: name + code */}
-          <div className="modal-row">
-            <label className="modal-field modal-field--grow">
-              课程名称 <span className="required">*</span>
+          <div className="modal-row modal-row--2col">
+            <label className="modal-field">
+              <span>课程名称 <span className="required">*</span></span>
               <input
                 type="text"
                 value={form.name}
@@ -68,7 +68,7 @@ export const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose,
               />
             </label>
             <label className="modal-field">
-              课程编码
+              <span>课程编码</span>
               <input
                 type="text"
                 value={form.code}
@@ -79,9 +79,9 @@ export const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose,
           </div>
 
           {/* Row 2: section + semester + credits */}
-          <div className="modal-row">
+          <div className="modal-row modal-row--3col">
             <label className="modal-field">
-              课程模块
+              <span>课程模块</span>
               <select value={form.section} onChange={e => set('section', e.target.value as CourseSection)}>
                 {sectionOptions.map(opt => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -89,13 +89,13 @@ export const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose,
               </select>
             </label>
             <label className="modal-field">
-              开课学期
+              <span>开课学期</span>
               <select value={form.semester} onChange={e => set('semester', Number(e.target.value))}>
                 {semesterOptions.map(s => <option key={s} value={s}>学期{s}</option>)}
               </select>
             </label>
             <label className="modal-field">
-              学分
+              <span>学分</span>
               <input
                 type="number" min={0} step={0.5}
                 value={form.credits}
@@ -105,30 +105,30 @@ export const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose,
           </div>
 
           {/* Row 3: theory + practice + weekly + weeks */}
-          <div className="modal-row">
+          <div className="modal-row modal-row--4col">
             <label className="modal-field">
-              理论学时
+              <span>理论学时</span>
               <input type="number" min={0}
                 value={form.hours_theory}
                 onChange={e => set('hours_theory', Number(e.target.value))}
               />
             </label>
             <label className="modal-field">
-              实践学时
+              <span>实践学时</span>
               <input type="number" min={0}
                 value={form.hours_practice}
                 onChange={e => set('hours_practice', Number(e.target.value))}
               />
             </label>
             <label className="modal-field">
-              周学时
+              <span>周学时</span>
               <input type="number" min={0}
                 value={form.hours_weekly}
                 onChange={e => set('hours_weekly', Number(e.target.value))}
               />
             </label>
             <label className="modal-field">
-              上课周数
+              <span>上课周数</span>
               <input type="number" min={0}
                 value={form.weeks_teaching}
                 onChange={e => set('weeks_teaching', Number(e.target.value))}
