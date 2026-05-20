@@ -11,8 +11,6 @@ interface CourseCardProps {
 
 export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDragStart, onDelete }) => {
   const style = getCourseStyle(course);
-  const totalHours = course.hours_weekly * course.weeks_teaching;
-
   return (
     <div
       draggable
@@ -38,7 +36,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDrag
       <span className="course-name">{course.name}</span>
       <span className="course-meta">
         {course.credits > 0 && <span className="course-credits">{course.credits}学分</span>}
-        {totalHours > 0 && <span className="course-hours">{totalHours}h</span>}
+        {course.hours_weekly > 0 && <span className="course-hours">{course.hours_weekly}节/周</span>}
       </span>
       {course.badge && (
         <span
