@@ -1,0 +1,8 @@
+name = "course-map-app"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "course-map-db"
+database_id = "placeholder-run-wrangler-d1-create-to-get-id"

@@ -3,35 +3,37 @@ export type CourseBadge = 'new' | 'reformed' | 'deleted' | 'adjusted' | 'keep';
 export type CourseStatus = 'active' | 'deleted' | 'adjusted';
 export type CourseSection = 'general' | 'math' | 'base' | 'core' | 'practice';
 
-export interface Course {
+export interface Major {
   id: string;
   name: string;
-  credits: string;
-  semester: number; // 1-8
+}
+
+export interface Course {
+  id: string;
+  major_id: string;
+  code: string;
+  name: string;
+  credits: number;
+  hours_theory: number;
+  hours_practice: number;
+  hours_weekly: number;
+  weeks_teaching: number;
+  semester: number;
+  section: CourseSection;
   category: CourseCategory;
   badge?: CourseBadge;
   status: CourseStatus;
-  section: CourseSection;
-}
-
-export interface SemesterData {
-  id: string;
-  title: string;
-  courses: Course[];
-}
-
-export interface AppState {
-  semesters: { [semesterId: string]: Course[] };
-  sections: {
-    id: CourseSection;
-    title: string;
-    color: string;
-  }[];
+  notes?: string;
 }
 
 export interface AddCourseFormData {
+  code: string;
   name: string;
-  credits: string;
+  credits: number;
+  hours_theory: number;
+  hours_practice: number;
+  hours_weekly: number;
+  weeks_teaching: number;
   semester: number;
   section: CourseSection;
   badge?: CourseBadge;

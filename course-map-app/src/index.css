@@ -144,7 +144,7 @@ body {
 .col-header.entry { background: rgba(255,255,255,0.05); font-size: 11px; }
 .col-header.grade { font-size: 14px; }
 
-/* Semester labels */
+/* Semester labels + stats row */
 .col-sems {
   display: grid;
   grid-template-columns: 100px repeat(8, 1fr);
@@ -152,15 +152,27 @@ body {
   border-bottom: 2px solid #D0D7E3;
 }
 
+.sem-col {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+.sem-col:first-child { background: rgba(255,255,255,0.05); }
+
 .sem-label {
   padding: 5px 4px;
   text-align: center;
   color: rgba(255,255,255,0.85);
   font-size: 11px;
-  border-right: 1px solid rgba(255,255,255,0.1);
 }
-.sem-label:first-child {
-  background: rgba(255,255,255,0.05);
+
+.sem-hours {
+  padding: 2px 4px 3px;
+  text-align: center;
+  font-size: 9px;
+  color: rgba(255,255,255,0.55);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  letter-spacing: 0.3px;
 }
 
 /* Section */
@@ -234,13 +246,16 @@ body {
 
 .course-card:active { cursor: grabbing; }
 
-.course-name { flex: 1; }
-.course-credits {
+.course-name { flex: 1; font-size: 11px; }
+.course-meta {
+  display: flex;
+  gap: 4px;
   font-size: 9px;
-  opacity: 0.85;
+  opacity: 0.8;
   font-weight: 400;
-  white-space: nowrap;
 }
+.course-credits { white-space: nowrap; }
+.course-hours { white-space: nowrap; }
 
 .course-badge {
   position: absolute;
@@ -448,4 +463,209 @@ body {
 #dndkit-drag-overlay .course-card {
   box-shadow: 0 8px 30px rgba(0,0,0,0.3);
   transform: scale(1.05);
+}
+
+/* ===== Header: major selector + view tabs ===== */
+.header { flex-wrap: wrap; gap: 8px; }
+
+.header-center {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.major-select {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 6px;
+  padding: 5px 28px 5px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.6)'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+.major-select option { background: #2C3E50; color: #fff; }
+.major-select-placeholder { color: rgba(255,255,255,0.5); font-size: 12px; }
+
+.view-tabs {
+  display: flex;
+  gap: 2px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.tab-btn {
+  padding: 4px 12px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: rgba(255,255,255,0.65);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+.tab-btn--active { background: rgba(255,255,255,0.18) !important; color: #fff !important; }
+
+/* ===== Loading ===== */
+.loading-state {
+  background: #fff;
+  border: 1px solid #D0D7E3;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 48px;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
+
+/* ===== Stats Panel ===== */
+.stats-panel {
+  background: #fff;
+  border: 1px solid #D0D7E3;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 24px;
+}
+
+.stats-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.stats-card {
+  border-radius: 10px;
+  padding: 16px 14px 14px;
+  color: #fff;
+  text-align: center;
+}
+.stats-card--blue   { background: #2980B9; }
+.stats-card--teal   { background: #16A085; }
+.stats-card--purple { background: #7B6BB5; }
+.stats-card--orange { background: #E8A838; }
+.stats-card--green  { background: #27AE60; }
+.stats-card--red    { background: #C06060; }
+
+.stats-card-value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stats-card--orange .stats-card-value,
+.stats-card--orange .stats-card-label { color: #1A1A1A; }
+
+.stats-card-label { font-size: 11px; opacity: 0.85; }
+
+.stats-tables {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 900px) {
+  .stats-tables { grid-template-columns: 1fr; }
+}
+
+.stats-table-wrapper {}
+.stats-table-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #3D5068;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #E8ECF2;
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.stats-table th {
+  background: #F0F3F8;
+  color: #3D5068;
+  font-weight: 600;
+  padding: 6px 8px;
+  text-align: right;
+  border: 1px solid #D0D7E3;
+}
+.stats-table th:first-child { text-align: left; }
+.stats-table td {
+  padding: 6px 8px;
+  text-align: right;
+  border: 1px solid #E8ECF2;
+  color: #4A5568;
+}
+.stats-table td:first-child { text-align: left; }
+.stats-table tr:hover td { background: #F8FAFB; }
+.stats-highlight { font-weight: 700; color: #2C3E50; }
+.stats-total-row td {
+  font-weight: 700;
+  background: #F0F3F8;
+  color: #2C3E50;
+  border-top: 2px solid #D0D7E3;
+}
+.stats-sem-label { font-weight: 500; }
+
+.section-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.stats-note {
+  font-size: 11px;
+  color: #999;
+  margin-top: 8px;
+}
+
+/* ===== Wide modal (AddCourseModal) ===== */
+.modal-content--wide {
+  width: 580px;
+  max-width: 95vw;
+}
+
+.modal-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3D5068;
+  flex: 1;
+  min-width: 0;
+}
+.modal-field--grow { flex: 2; }
+
+.modal-hint {
+  font-size: 12px;
+  color: #666;
+  padding: 6px 10px;
+  background: #F0F3F8;
+  border-radius: 6px;
 }

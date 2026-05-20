@@ -11,6 +11,7 @@ interface CourseCardProps {
 
 export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDragStart, onDelete }) => {
   const style = getCourseStyle(course);
+  const totalHours = course.hours_weekly * course.weeks_teaching;
 
   return (
     <div
@@ -26,8 +27,8 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDrag
         lineHeight: 1.35,
         boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
         display: 'flex',
-        alignItems: 'baseline',
-        gap: 4,
+        flexDirection: 'column',
+        gap: 1,
         cursor: dragging ? 'grabbing' : 'grab',
         opacity: dragging ? 0.4 : 1,
         transition: 'box-shadow 0.15s, opacity 0.15s',
@@ -35,22 +36,14 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDrag
       className="course-card"
     >
       <span className="course-name">{course.name}</span>
-      {course.credits && <span className="course-credits">{course.credits}</span>}
+      <span className="course-meta">
+        {course.credits > 0 && <span className="course-credits">{course.credits}学分</span>}
+        {totalHours > 0 && <span className="course-hours">{totalHours}h</span>}
+      </span>
       {course.badge && (
         <span
           className="course-badge"
-          style={{
-            position: 'absolute',
-            top: -4,
-            right: -4,
-            fontSize: 8,
-            padding: '1px 4px',
-            borderRadius: 3,
-            fontWeight: 700,
-            color: '#fff',
-            lineHeight: 1.4,
-            background: BADGE_CONFIG[course.badge].bg,
-          }}
+          style={{ background: BADGE_CONFIG[course.badge].bg }}
         >
           {BADGE_CONFIG[course.badge].label}
         </span>
