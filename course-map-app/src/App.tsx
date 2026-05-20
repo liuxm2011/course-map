@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import type { Course, CourseSection, AddCourseFormData } from './types';
 import { initialCourses } from './data/courses';
-import { generateId, SECTION_COLORS_LABEL, CATEGORY_LABELS } from './data/styles';
+import { generateId, SECTION_COLORS_LABEL } from './data/styles';
 import { SEMESTER_LABELS } from './data/styles';
 import { Header } from './components/Header';
 import { SemesterCell } from './components/SemesterCell';
@@ -138,10 +138,7 @@ const App: React.FC = () => {
     <div className="app">
       <Header
         onAddCourse={() => setShowModal(true)}
-        onReset={handleReset}
         totalCourses={totalCourses}
-        activeCourses={activeCount}
-        deletedCourses={deletedCount}
       />
 
       <div className="map-grid">
@@ -169,7 +166,6 @@ const App: React.FC = () => {
           return (
             <div className="map-section" key={section}>
               <div className="section-title" style={{ background: `${sectionColor.bg}15`, color: sectionColor.bg }}>
-                <div className="section-label" style={{ background: sectionColor.bg }}>{CATEGORY_LABELS[section]}</div>
                 <span className="section-text">
                   {section === 'general' && '通识教育课程'}
                   {section === 'math' && '数学基础课程'}

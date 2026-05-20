@@ -32,73 +32,63 @@ body {
   background: #2C3E50;
   color: #fff;
   border-radius: 10px 10px 0 0;
-  padding: 14px 20px;
+  padding: 8px 20px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
 }
 
 .header-left h1 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.5px;
   color: #fff;
+  margin: 0;
 }
 
 .header-subtitle {
-  font-size: 11px;
-  opacity: 0.75;
-  margin-top: 4px;
-}
-
-.header-meta {
   font-size: 10px;
   opacity: 0.7;
-  line-height: 1.6;
-  text-align: right;
+  margin-top: 2px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .header-stats {
   display: flex;
   gap: 6px;
-  margin-top: 8px;
-  justify-content: flex-end;
 }
 
 .stat-badge {
   font-size: 11px;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: 4px;
   font-weight: 600;
-}
-.stat-total { background: rgba(255,255,255,0.15); }
-.stat-active { background: rgba(39, 174, 96, 0.3); color: #a8f0c8; }
-.stat-deleted { background: rgba(192, 57, 43, 0.3); color: #f0a8a8; }
-
-.header-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-items: flex-end;
+  background: rgba(255,255,255,0.12);
 }
 
-.btn-add, .btn-reset {
-  padding: 8px 16px;
+.btn-add {
+  padding: 6px 14px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
   font-family: inherit;
-  transition: transform 0.1s, background 0.2s;
-}
-
-.btn-add {
   background: #27AE60;
   color: #fff;
+  transition: transform 0.1s, background 0.2s;
+  white-space: nowrap;
 }
+
 .btn-add:hover { background: #219A52; }
+.btn-add:active { transform: scale(0.96); }
 
 .btn-reset {
   background: rgba(255,255,255,0.15);
@@ -167,23 +157,12 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 12px;
+  padding: 4px 12px;
   font-weight: 700;
   font-size: 12px;
   border-bottom: 1px solid #D0D7E3;
   background: #f0f3f8;
-}
-
-.section-label {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  padding: 4px 6px;
-  border-radius: 4px;
-  color: #fff;
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 1px;
-  flex-shrink: 0;
+  min-height: 28px;
 }
 
 .section-text { flex: 1; }

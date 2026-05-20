@@ -39,13 +39,13 @@ export const BADGE_CONFIG: Record<CourseBadge, { label: string; bg: string }> = 
 export const SEMESTER_LABELS = ['入学前', '学期1', '学期2', '学期3', '学期4', '学期5', '学期6', '学期7', '学期8'];
 export const GRADE_LABELS = ['', '一年级', '二年级', '三年级', '四年级'];
 
-export function getCourseStyle(course: Course): { bg: string; color: string; border?: string; textDecoration?: string; opacity?: string } {
+export function getCourseStyle(course: Course): { backgroundColor: string; color: string; border?: string; textDecoration?: string; opacity?: string } {
   if (course.status === 'deleted') {
-    return { bg: '#AAA', color: '#666', textDecoration: 'line-through', opacity: '0.7' };
+    return { backgroundColor: '#AAA', color: '#666', textDecoration: 'line-through', opacity: '0.7' };
   }
   const colors = SECTION_COLORS[course.category];
   return {
-    bg: colors.bg,
+    backgroundColor: colors.bg,
     color: colors.text,
     border: colors.border ? `2px solid ${colors.border}` : undefined,
   };

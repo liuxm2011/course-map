@@ -2,13 +2,10 @@ import React from 'react';
 
 interface HeaderProps {
   onAddCourse: () => void;
-  onReset: () => void;
   totalCourses: number;
-  activeCourses: number;
-  deletedCourses: number;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onAddCourse, onReset, totalCourses, activeCourses, deletedCourses }) => {
+export const Header: React.FC<HeaderProps> = ({ onAddCourse, totalCourses }) => {
   return (
     <header className="header">
       <div className="header-left">
@@ -18,23 +15,12 @@ export const Header: React.FC<HeaderProps> = ({ onAddCourse, onReset, totalCours
         </div>
       </div>
       <div className="header-right">
-        <div className="header-meta">
-          萍乡学院 · 信息与计算机工程学院<br />
-          数据科学与大数据技术教研室
-        </div>
         <div className="header-stats">
-          <span className="stat-badge stat-total">课程 {totalCourses}</span>
-          <span className="stat-badge stat-active">在用 {activeCourses}</span>
-          <span className="stat-badge stat-deleted">删除 {deletedCourses}</span>
+          <span className="stat-badge">共 {totalCourses} 门课程</span>
         </div>
-        <div className="header-actions">
-          <button className="btn-add" onClick={onAddCourse}>
-            ＋ 添加课程
-          </button>
-          <button className="btn-reset" onClick={onReset}>
-            重置
-          </button>
-        </div>
+        <button className="btn-add" onClick={onAddCourse}>
+           添加课程
+        </button>
       </div>
     </header>
   );
