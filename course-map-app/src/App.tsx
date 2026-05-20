@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
-import { toPng } from 'html-to-image';
+import html2canvas from 'html2canvas';
 import type { Course, CourseSection, AddCourseFormData } from './types';
 import { initialCourses } from './data/courses';
 import { generateId, SECTION_COLORS_LABEL } from './data/styles';
@@ -139,10 +139,10 @@ const App: React.FC = () => {
 
   const handleExport = useCallback(() => {
     if (!exportRef.current) return;
-    toPng(exportRef.current, { pixelRatio: 2, backgroundColor: '#ffffff' })
-      .then(dataUrl => {
+    html2canvas(exportRef.current, { scale: 2, backgroundColor: '#ffffff', useCORS: true })
+      .then(canvas => {
         const a = document.createElement('a');
-        a.href = dataUrl;
+        a.href = canvas.toDataURL('image/png');
         a.download = '课程地图.png';
         a.click();
       });
