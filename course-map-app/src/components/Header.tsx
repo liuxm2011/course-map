@@ -2,10 +2,11 @@ import React from 'react';
 
 interface HeaderProps {
   onAddCourse: () => void;
+  onExport: () => void;
   totalCourses: number;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onAddCourse, totalCourses }) => {
+export const Header: React.FC<HeaderProps> = ({ onAddCourse, onExport, totalCourses }) => {
   return (
     <header className="header">
       <div className="header-left">
@@ -20,6 +21,9 @@ export const Header: React.FC<HeaderProps> = ({ onAddCourse, totalCourses }) => 
         </div>
         <button className="btn-add" onClick={onAddCourse}>
            添加课程
+        </button>
+        <button className="btn-export" onClick={onExport}>
+          导出地图
         </button>
       </div>
     </header>

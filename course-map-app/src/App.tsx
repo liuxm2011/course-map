@@ -1,12 +1,13 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { toPng } from 'html-to-image';
 import type { Course, CourseSection, AddCourseFormData } from './types';
 import { initialCourses } from './data/courses';
 import { generateId, SECTION_COLORS_LABEL } from './data/styles';
 import { SEMESTER_LABELS } from './data/styles';
 import { Header } from './components/Header';
+import { Legend } from './components/Legend';
 import { SemesterCell } from './components/SemesterCell';
 import { AddCourseModal } from './components/AddCourseModal';
-import { Legend } from './components/Legend';
 
 const STORAGE_KEY = 'course-map-data';
 
@@ -134,23 +135,29 @@ const App: React.FC = () => {
     );
   }, [courses]);
 
+  const exportRef = useRef<HTMLDivElement>(null);
+
+  const handleExport = useCallback(() => {
+    if (!exportRef.current) return;
+    toPng(exportRef.current, { pixelRatio: 2, backgroundColor: '#ffffff' })
+      .then(dataUrl => {
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = '课程地图.png';
+        a.click();
+      });
+  }, []);
+
   return (
     <div className="app">
       <Header
         onAddCourse={() => setShowModal(true)}
+        onExport={handleExport}
         totalCourses={totalCourses}
       />
 
+      <div ref={exportRef}>
       <div className="map-grid">
-        {/* Column headers */}
-        <div className="col-headers">
-          <div className="col-header entry">—</div>
-          <div className="col-header grade">一年级</div>
-          <div className="col-header grade">二年级</div>
-          <div className="col-header grade">三年级</div>
-          <div className="col-header grade">四年级</div>
-        </div>
-
         {/* Semester labels */}
         <div className="col-sems">
           <div className="sem-label" />
@@ -207,6 +214,7 @@ const App: React.FC = () => {
       </div>
 
       <Legend />
+      </div>
 
       {/* Add course modal */}
       <AddCourseModal

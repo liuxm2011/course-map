@@ -90,6 +90,22 @@ body {
 .btn-add:hover { background: #219A52; }
 .btn-add:active { transform: scale(0.96); }
 
+.btn-export {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  background: #2980B9;
+  color: #fff;
+  transition: transform 0.1s, background 0.2s;
+  white-space: nowrap;
+}
+.btn-export:hover { background: #2471A3; }
+.btn-export:active { transform: scale(0.96); }
+
 .btn-reset {
   background: rgba(255,255,255,0.15);
   color: #fff;
