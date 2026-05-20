@@ -196,7 +196,7 @@ const App: React.FC = () => {
             {/* Semester labels + per-semester hours stats */}
             <div className="col-sems">
               <div className="sem-col">
-                <div className="sem-label" />
+                <div className="sem-label">学期</div>
                 <div className="sem-hours">周学时</div>
               </div>
               {SEMESTER_NUMS.map(sem => (
