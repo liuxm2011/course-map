@@ -214,22 +214,16 @@ const App: React.FC = () => {
               const sectionColor = SECTION_COLORS_LABEL[section];
               return (
                 <div className="map-section" key={section}>
-                  <div className="section-title" style={{ background: `${sectionColor.bg}15`, color: sectionColor.bg }}>
-                    <span className="section-text">
-                      {section === 'general'  && '通识教育课程'}
-                      {section === 'math'     && '数学基础课程'}
-                      {section === 'base'     && '专业基础课程'}
-                      {section === 'core'     && '专业核心课程（大数据方向）'}
-                      {section === 'practice' && '集中实践教学环节'}
-                    </span>
-                    <span className="section-count">
-                      {courses.filter(c => c.section === section && c.status === 'active').length}门在用
-                      {courses.filter(c => c.section === section && c.status === 'deleted').length > 0 &&
-                        ` / ${courses.filter(c => c.section === section && c.status === 'deleted').length}门删除`}
-                    </span>
-                  </div>
                   <div className="semester-row">
-                    <div className="semester-cell spacer-cell" />
+                    <div className="semester-cell spacer-cell">
+                      <span className="section-label" style={{ color: sectionColor.bg }}>
+                        {section === 'general'  && '通识教育课程'}
+                        {section === 'math'     && '数学基础课程'}
+                        {section === 'base'     && '专业基础课程'}
+                        {section === 'core'     && '专业核心课程（大数据方向）'}
+                        {section === 'practice' && '集中实践教学环节'}
+                      </span>
+                    </div>
                     {SEMESTER_NUMS.map(sem => {
                       const cellId = `${section}-${sem}`;
                       return (
