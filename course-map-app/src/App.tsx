@@ -217,7 +217,7 @@ const App: React.FC = () => {
                         {section === 'general'  && '通识教育课程'}
                         {section === 'math'     && '数学基础课程'}
                         {section === 'base'     && '专业基础课程'}
-                        {section === 'core'     && '专业核心课程（大数据方向）'}
+                        {section === 'core'     && '专业核心课程'}
                         {section === 'practice' && '集中实践教学环节'}
                       </span>
                     </div>
