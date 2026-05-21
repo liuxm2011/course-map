@@ -129,6 +129,22 @@ body {
 .btn-export:hover { background: var(--bg-subtle); border-color: var(--text-tertiary); }
 .btn-export:active { transform: translateY(1px); }
 
+.btn-import-general {
+  padding: 7px 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--bg-surface);
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+.btn-import-general:hover { background: #eff6ff; border-color: #93c5fd; }
+.btn-import-general:active { transform: translateY(1px); }
+
 /* ===== Map Grid ===== */
 .map-grid {
   background: var(--bg-surface);
@@ -484,6 +500,7 @@ body {
   align-items: center;
   flex: 1;
   justify-content: center;
+  gap: 10px;
 }
 
 .major-select {

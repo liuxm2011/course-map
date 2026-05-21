@@ -11,13 +11,14 @@ interface HeaderProps {
   onViewChange: (v: 'map' | 'stats') => void;
   onAddCourse: () => void;
   onExport: () => void;
+  onImportGeneral: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   majors, currentMajorId, onMajorChange,
   currentYear, onYearChange,
   view, onViewChange,
-  onAddCourse, onExport,
+  onAddCourse, onExport, onImportGeneral,
 }) => {
   const now = new Date().getFullYear();
   const yearOptions = [now - 2, now - 1, now, now + 1];
@@ -66,6 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
         {view === 'map' && (
           <>
+            <button className="btn-import-general" onClick={onImportGeneral}>导入通识课程</button>
             <button className="btn-add" onClick={onAddCourse}>添加课程</button>
             <button className="btn-export" onClick={onExport}>导出地图</button>
           </>

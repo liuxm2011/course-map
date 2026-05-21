@@ -168,6 +168,23 @@ const App: React.FC = () => {
     apiPut(courseId, patch);
   }, [courses, apiPut]);
 
+  const handleImportGeneral = useCallback(() => {
+    if (!window.confirm(
+      '此操作将删除并替换当前课程地图中的所有通识课程，替换为 2026 级数据科学与大数据技术专业的通识课程模板。\n\n确定要继续吗？'
+    )) return;
+
+    fetch(`/api/majors/${currentMajorId}/import-general`, { method: 'POST' })
+      .then(r => r.json())
+      .then(json => {
+        const imported: Course[] = json.data ?? [];
+        setCourses(prev => [
+          ...prev.filter(c => c.section !== 'general'),
+          ...imported,
+        ]);
+      })
+      .catch(() => alert('导入失败，请重试'));
+  }, [currentMajorId]);
+
   const exportRef = useRef<HTMLDivElement>(null);
   const handleExport = useCallback(() => {
     if (!exportRef.current) return;
@@ -192,6 +209,7 @@ const App: React.FC = () => {
         onViewChange={setView}
         onAddCourse={() => setShowModal(true)}
         onExport={handleExport}
+        onImportGeneral={handleImportGeneral}
       />
 
       {loading && (
