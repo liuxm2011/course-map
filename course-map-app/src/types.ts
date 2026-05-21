@@ -6,6 +6,7 @@ export type CourseSection = 'general' | 'math' | 'base' | 'core' | 'practice';
 export interface Major {
   id: string;
   name: string;
+  year: number;
 }
 
 export interface Course {

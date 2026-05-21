@@ -14,6 +14,7 @@ const SEMESTER_NUMS = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const App: React.FC = () => {
   const [majors, setMajors] = useState<Major[]>([]);
+  const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
   const [currentMajorId, setCurrentMajorId] = useState<string>('bigdata');
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
@@ -22,13 +23,21 @@ const App: React.FC = () => {
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
 
-  // Load majors once
+  // Load majors when year changes; auto-select first major in the new list
   useEffect(() => {
-    fetch('/api/majors')
+    fetch(`/api/majors?year=${currentYear}`)
       .then(r => r.json())
-      .then(json => setMajors(json.data ?? []))
+      .then(json => {
+        const list: Major[] = json.data ?? [];
+        setMajors(list);
+        if (list.length > 0) {
+          setCurrentMajorId(prev =>
+            list.find(m => m.id === prev) ? prev : list[0].id
+          );
+        }
+      })
       .catch(() => {});
-  }, []);
+  }, [currentYear]);
 
   // Load courses when major changes
   useEffect(() => {
@@ -177,6 +186,8 @@ const App: React.FC = () => {
         majors={majors}
         currentMajorId={currentMajorId}
         onMajorChange={setCurrentMajorId}
+        currentYear={currentYear}
+        onYearChange={setCurrentYear}
         view={view}
         onViewChange={setView}
         onAddCourse={() => setShowModal(true)}

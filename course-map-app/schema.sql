@@ -1,9 +1,10 @@
 -- Course Map Database Schema
 
 CREATE TABLE IF NOT EXISTS majors (
-  id         TEXT PRIMARY KEY,
-  name       TEXT NOT NULL,
-  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  id         TEXT    PRIMARY KEY,
+  name       TEXT    NOT NULL,
+  year       INTEGER NOT NULL DEFAULT 2026,
+  created_at TEXT    NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE TABLE IF NOT EXISTS courses (
@@ -32,10 +33,10 @@ CREATE INDEX IF NOT EXISTS idx_courses_major_section  ON courses(major_id, secti
 -- =====================
 -- Seed: Majors
 -- =====================
-INSERT OR IGNORE INTO majors (id, name) VALUES
-  ('bigdata',  '数据科学与大数据技术'),
-  ('software', '软件工程'),
-  ('ai',       '人工智能');
+INSERT OR IGNORE INTO majors (id, name, year) VALUES
+  ('bigdata',  '数据科学与大数据技术', 2026),
+  ('software', '软件工程',             2026),
+  ('ai',       '人工智能',             2026);
 
 -- =====================
 -- Seed: 数据科学与大数据技术 (bigdata) — 61 courses

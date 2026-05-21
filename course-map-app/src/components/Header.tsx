@@ -5,6 +5,8 @@ interface HeaderProps {
   majors: Major[];
   currentMajorId: string;
   onMajorChange: (id: string) => void;
+  currentYear: number;
+  onYearChange: (year: number) => void;
   view: 'map' | 'stats';
   onViewChange: (v: 'map' | 'stats') => void;
   onAddCourse: () => void;
@@ -13,9 +15,13 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   majors, currentMajorId, onMajorChange,
+  currentYear, onYearChange,
   view, onViewChange,
   onAddCourse, onExport,
 }) => {
+  const now = new Date().getFullYear();
+  const yearOptions = [now - 2, now - 1, now, now + 1];
+
   return (
     <header className="header">
       <div className="header-left">
@@ -24,6 +30,16 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       <div className="header-center">
+        <select
+          className="major-select"
+          value={currentYear}
+          onChange={e => onYearChange(Number(e.target.value))}
+        >
+          {yearOptions.map(y => (
+            <option key={y} value={y}>{y}年</option>
+          ))}
+        </select>
+
         {majors.length > 0 ? (
           <select
             className="major-select"
@@ -35,7 +51,7 @@ export const Header: React.FC<HeaderProps> = ({
             ))}
           </select>
         ) : (
-          <span className="major-select-placeholder">加载专业中…</span>
+          <span className="major-select-placeholder">暂无培养方案</span>
         )}
       </div>
 
@@ -50,7 +66,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => onViewChange('stats')}
           >统计分析</button>
         </div>
-{view === 'map' && (
+        {view === 'map' && (
           <>
             <button className="btn-add" onClick={onAddCourse}>添加课程</button>
             <button className="btn-export" onClick={onExport}>导出地图</button>
