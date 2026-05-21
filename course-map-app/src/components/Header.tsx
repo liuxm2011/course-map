@@ -40,19 +40,17 @@ export const Header: React.FC<HeaderProps> = ({
           ))}
         </select>
 
-        {majors.length > 0 ? (
-          <select
-            className="major-select"
-            value={currentMajorId}
-            onChange={e => onMajorChange(e.target.value)}
-          >
-            {majors.map(m => (
-              <option key={m.id} value={m.id}>{m.name}</option>
-            ))}
-          </select>
-        ) : (
-          <span className="major-select-placeholder">暂无培养方案</span>
-        )}
+        <select
+          className="major-select"
+          value={currentMajorId}
+          onChange={e => onMajorChange(e.target.value)}
+          disabled={majors.length === 0}
+        >
+          {majors.length > 0
+            ? majors.map(m => <option key={m.id} value={m.id}>{m.name}</option>)
+            : <option value="">加载中…</option>
+          }
+        </select>
       </div>
 
       <div className="header-right">
