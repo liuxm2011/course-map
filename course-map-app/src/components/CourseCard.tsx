@@ -63,6 +63,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDrag
       <span className="course-meta">
         {course.credits > 0 && <span className="course-credits">{course.credits}学分</span>}
         {course.hours_weekly > 0 && <span className="course-hours">{course.hours_weekly}节/周</span>}
+        {(course.hours_theory + course.hours_practice) > 0 && (
+          <span className="course-total-hours">{course.hours_theory + course.hours_practice}学时</span>
+        )}
       </span>
       {course.badge && (
         <span
