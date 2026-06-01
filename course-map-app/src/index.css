@@ -276,30 +276,43 @@ body {
   border: 2px solid var(--bg-surface);
 }
 
-.course-delete {
+.course-menu {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 22px;
-  height: 22px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.9);
-  color: var(--text-primary);
-  font-size: 14px;
-  cursor: pointer;
-  opacity: 0;
-  transition: all 0.2s;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 200;
+  background: var(--bg-surface, #fff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  min-width: 120px;
+  overflow: hidden;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-sm);
+  flex-direction: column;
 }
 
-.course-card:hover .course-delete { opacity: 1; }
-.course-delete:hover { 
-  background: #fee2e2; 
-  color: #ef4444; 
+.course-menu-item {
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary, #1e293b);
+  transition: background 0.15s;
+}
+
+.course-menu-item:hover {
+  background: var(--bg-hover, #f1f5f9);
+}
+
+.course-menu-item--danger {
+  color: #ef4444;
+}
+
+.course-menu-item--danger:hover {
+  background: #fee2e2;
 }
 
 /* Legend */

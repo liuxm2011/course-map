@@ -7,6 +7,7 @@ import { Header } from './components/Header';
 import { Legend } from './components/Legend';
 import { SemesterCell } from './components/SemesterCell';
 import { AddCourseModal } from './components/AddCourseModal';
+import { EditCourseModal } from './components/EditCourseModal';
 import { StatsPanel } from './components/StatsPanel';
 
 const SECTIONS: CourseSection[] = ['general', 'math', 'base', 'core', 'practice'];
@@ -22,6 +23,7 @@ const App: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
 
   // Load majors when year changes; auto-select first major in the new list
   useEffect(() => {
@@ -100,6 +102,29 @@ const App: React.FC = () => {
     setCourses(prev => prev.filter(c => c.id !== id));
     apiDelete(id);
   }, [apiDelete]);
+
+  const handleEditOpen = useCallback((course: Course) => {
+    setEditingCourse(course);
+  }, []);
+
+  const handleUpdate = useCallback((id: string, data: AddCourseFormData) => {
+    const patch = {
+      code: data.code,
+      name: data.name,
+      credits: data.credits,
+      hours_theory: data.hours_theory,
+      hours_practice: data.hours_practice,
+      hours_weekly: data.hours_weekly,
+      weeks_teaching: data.weeks_teaching,
+      semester: data.semester,
+      section: data.section,
+      category: data.section as unknown as CourseCategory,
+      badge: data.badge,
+      status: data.status,
+    };
+    setCourses(prev => prev.map(c => c.id === id ? { ...c, ...patch } : c));
+    apiPut(id, patch);
+  }, [apiPut]);
 
   const handleAdd = useCallback((data: AddCourseFormData) => {
     const newCourse: Course = {
@@ -264,6 +289,7 @@ const App: React.FC = () => {
                           onDrop={handleDrop}
                           onDragEnd={handleDragEnd}
                           onDelete={handleDelete}
+                          onEdit={handleEditOpen}
                           draggingId={draggingId}
                         />
                       );
@@ -285,6 +311,12 @@ const App: React.FC = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onAdd={handleAdd}
+      />
+      <EditCourseModal
+        course={editingCourse}
+        isOpen={editingCourse !== null}
+        onClose={() => setEditingCourse(null)}
+        onSave={handleUpdate}
       />
     </div>
   );

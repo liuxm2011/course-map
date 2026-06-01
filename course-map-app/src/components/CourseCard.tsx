@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { Course } from '../types';
 import { getCourseStyle, BADGE_CONFIG } from '../data/styles';
 
@@ -7,17 +7,53 @@ interface CourseCardProps {
   dragging: boolean;
   onDragStart: (e: React.DragEvent<HTMLDivElement>, id: string) => void;
   onDelete: (id: string) => void;
+  onEdit: (course: Course) => void;
 }
 
-export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDragStart, onDelete }) => {
+export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDragStart, onDelete, onEdit }) => {
   const style = getCourseStyle(course);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const dragHappenedRef = useRef(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleOutside = (e: MouseEvent) => {
+      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, [menuOpen]);
+
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    dragHappenedRef.current = true;
+    setMenuOpen(false);
+    e.stopPropagation();
+    onDragStart(e, course.id);
+  };
+
+  const handleDragEnd = () => {
+    setTimeout(() => { dragHappenedRef.current = false; }, 0);
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (dragHappenedRef.current) return;
+    e.stopPropagation();
+    setMenuOpen(prev => !prev);
+  };
+
   return (
     <div
+      ref={cardRef}
       draggable
-      onDragStart={e => { e.stopPropagation(); onDragStart(e, course.id); }}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onClick={handleClick}
       style={{
         ...style,
-        cursor: dragging ? 'grabbing' : 'grab',
+        cursor: dragging ? 'grabbing' : 'pointer',
         opacity: dragging ? 0.4 : 1,
       }}
       className="course-card"
@@ -35,13 +71,22 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDrag
           {BADGE_CONFIG[course.badge].label}
         </span>
       )}
-      <button
-        className="course-delete"
-        onClick={e => { e.stopPropagation(); onDelete(course.id); }}
-        title="删除此课程"
-      >
-        ×
-      </button>
+      {menuOpen && (
+        <div className="course-menu" onClick={e => e.stopPropagation()}>
+          <button
+            className="course-menu-item"
+            onClick={e => { e.stopPropagation(); setMenuOpen(false); onEdit(course); }}
+          >
+            编辑课程
+          </button>
+          <button
+            className="course-menu-item course-menu-item--danger"
+            onClick={e => { e.stopPropagation(); setMenuOpen(false); onDelete(course.id); }}
+          >
+            删除课程
+          </button>
+        </div>
+      )}
     </div>
   );
 };

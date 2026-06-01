@@ -13,6 +13,7 @@ interface SemesterCellProps {
   onDrop: (e: React.DragEvent<HTMLDivElement>, cellId: string) => void;
   onDragEnd: () => void;
   onDelete: (id: string) => void;
+  onEdit: (course: Course) => void;
 }
 
 export const SemesterCell: React.FC<SemesterCellProps> = ({
@@ -26,6 +27,7 @@ export const SemesterCell: React.FC<SemesterCellProps> = ({
   onDrop,
   onDragEnd,
   onDelete,
+  onEdit,
 }) => {
   return (
     <div
@@ -42,6 +44,7 @@ export const SemesterCell: React.FC<SemesterCellProps> = ({
           dragging={draggingId === course.id}
           onDragStart={onDragStart}
           onDelete={onDelete}
+          onEdit={onEdit}
         />
       ))}
     </div>
