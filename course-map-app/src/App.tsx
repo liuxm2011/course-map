@@ -16,6 +16,16 @@ const SEMESTER_NUMS = [1, 2, 3, 4, 5, 6, 7, 8];
 const LOCK_PASSWORD = '112233';
 const LOCK_STORAGE_KEY = 'courseMapLocked';
 
+// 锁定状态按「年份-专业」维度独立存储，互不影响
+const loadLockedMaps = (): Record<string, boolean> => {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(LOCK_STORAGE_KEY) || '{}');
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch {
+    return {};
+  }
+};
+
 const App: React.FC = () => {
   const [majors, setMajors] = useState<Major[]>([]);
   const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
@@ -27,8 +37,12 @@ const App: React.FC = () => {
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
-  const [locked, setLocked] = useState<boolean>(() => localStorage.getItem(LOCK_STORAGE_KEY) === 'true');
+  const [lockedMaps, setLockedMaps] = useState<Record<string, boolean>>(loadLockedMaps);
   const [showLockModal, setShowLockModal] = useState(false);
+
+  // 当前地图的唯一标识与锁定状态
+  const currentMapKey = `${currentYear}-${currentMajorId}`;
+  const locked = !!lockedMaps[currentMapKey];
 
   // Load majors when year changes; auto-select first major in the new list
   useEffect(() => {
@@ -201,11 +215,14 @@ const App: React.FC = () => {
   const handleLockConfirm = useCallback((password: string): boolean => {
     if (password !== LOCK_PASSWORD) return false;
     const next = !locked;
-    setLocked(next);
-    localStorage.setItem(LOCK_STORAGE_KEY, String(next));
+    setLockedMaps(prev => {
+      const updated = { ...prev, [currentMapKey]: next };
+      localStorage.setItem(LOCK_STORAGE_KEY, JSON.stringify(updated));
+      return updated;
+    });
     setShowLockModal(false);
     return true;
-  }, [locked]);
+  }, [locked, currentMapKey]);
 
   const handleImportGeneral = useCallback(() => {
     if (!window.confirm(
