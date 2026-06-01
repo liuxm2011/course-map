@@ -55,6 +55,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDrag
         ...style,
         cursor: dragging ? 'grabbing' : 'pointer',
         opacity: dragging ? 0.4 : 1,
+        zIndex: menuOpen ? 100 : undefined,
       }}
       className="course-card"
     >
