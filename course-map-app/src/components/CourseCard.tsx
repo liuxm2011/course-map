@@ -87,7 +87,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, locked
           </button>
           <button
             className="course-menu-item course-menu-item--danger"
-            onClick={e => { e.stopPropagation(); setMenuOpen(false); onDelete(course.id); }}
+            onClick={e => { e.stopPropagation(); setMenuOpen(false); if (window.confirm(`确认删除「${course.name}」吗？`)) onDelete(course.id); }}
           >
             删除课程
           </button>
