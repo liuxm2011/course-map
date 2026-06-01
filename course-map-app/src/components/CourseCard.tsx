@@ -5,12 +5,13 @@ import { getCourseStyle, BADGE_CONFIG } from '../data/styles';
 interface CourseCardProps {
   course: Course;
   dragging: boolean;
+  locked: boolean;
   onDragStart: (e: React.DragEvent<HTMLDivElement>, id: string) => void;
   onDelete: (id: string) => void;
   onEdit: (course: Course) => void;
 }
 
-export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDragStart, onDelete, onEdit }) => {
+export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, locked, onDragStart, onDelete, onEdit }) => {
   const style = getCourseStyle(course);
   const [menuOpen, setMenuOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -28,6 +29,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDrag
   }, [menuOpen]);
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    if (locked) { e.preventDefault(); return; }
     dragHappenedRef.current = true;
     setMenuOpen(false);
     e.stopPropagation();
@@ -39,7 +41,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDrag
   };
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (dragHappenedRef.current) return;
+    if (locked || dragHappenedRef.current) return;
     e.stopPropagation();
     setMenuOpen(prev => !prev);
   };
@@ -53,7 +55,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, dragging, onDrag
       onClick={handleClick}
       style={{
         ...style,
-        cursor: dragging ? 'grabbing' : 'pointer',
+        cursor: locked ? 'default' : dragging ? 'grabbing' : 'pointer',
         opacity: dragging ? 0.4 : 1,
         zIndex: menuOpen ? 100 : undefined,
       }}

@@ -8,10 +8,13 @@ import { Legend } from './components/Legend';
 import { SemesterCell } from './components/SemesterCell';
 import { AddCourseModal } from './components/AddCourseModal';
 import { EditCourseModal } from './components/EditCourseModal';
+import { LockModal } from './components/LockModal';
 import { StatsPanel } from './components/StatsPanel';
 
 const SECTIONS: CourseSection[] = ['general', 'math', 'base', 'core', 'practice'];
 const SEMESTER_NUMS = [1, 2, 3, 4, 5, 6, 7, 8];
+const LOCK_PASSWORD = '112233';
+const LOCK_STORAGE_KEY = 'courseMapLocked';
 
 const App: React.FC = () => {
   const [majors, setMajors] = useState<Major[]>([]);
@@ -24,6 +27,8 @@ const App: React.FC = () => {
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+  const [locked, setLocked] = useState<boolean>(() => localStorage.getItem(LOCK_STORAGE_KEY) === 'true');
+  const [showLockModal, setShowLockModal] = useState(false);
 
   // Load majors when year changes; auto-select first major in the new list
   useEffect(() => {
@@ -193,6 +198,15 @@ const App: React.FC = () => {
     apiPut(courseId, patch);
   }, [courses, apiPut]);
 
+  const handleLockConfirm = useCallback((password: string): boolean => {
+    if (password !== LOCK_PASSWORD) return false;
+    const next = !locked;
+    setLocked(next);
+    localStorage.setItem(LOCK_STORAGE_KEY, String(next));
+    setShowLockModal(false);
+    return true;
+  }, [locked]);
+
   const handleImportGeneral = useCallback(() => {
     if (!window.confirm(
       '此操作将删除并替换当前课程地图中的所有通识课程，替换为 2026 级数据科学与大数据技术专业的通识课程模板。\n\n确定要继续吗？'
@@ -235,6 +249,8 @@ const App: React.FC = () => {
         onAddCourse={() => setShowModal(true)}
         onExport={handleExport}
         onImportGeneral={handleImportGeneral}
+        locked={locked}
+        onLockToggle={() => setShowLockModal(true)}
       />
 
       {loading && (
@@ -290,6 +306,7 @@ const App: React.FC = () => {
                           onDragEnd={handleDragEnd}
                           onDelete={handleDelete}
                           onEdit={handleEditOpen}
+                          locked={locked}
                           draggingId={draggingId}
                         />
                       );
@@ -317,6 +334,12 @@ const App: React.FC = () => {
         isOpen={editingCourse !== null}
         onClose={() => setEditingCourse(null)}
         onSave={handleUpdate}
+      />
+      <LockModal
+        isOpen={showLockModal}
+        mode={locked ? 'unlock' : 'lock'}
+        onClose={() => setShowLockModal(false)}
+        onConfirm={handleLockConfirm}
       />
     </div>
   );

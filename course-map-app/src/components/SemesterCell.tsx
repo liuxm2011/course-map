@@ -7,6 +7,7 @@ interface SemesterCellProps {
   courses: Course[];
   isOver: boolean;
   draggingId: string | null;
+  locked: boolean;
   onDragStart: (e: React.DragEvent<HTMLDivElement>, id: string) => void;
   onDragOver: (e: React.DragEvent<HTMLDivElement>, cellId: string) => void;
   onDragLeave: (cellId: string) => void;
@@ -21,6 +22,7 @@ export const SemesterCell: React.FC<SemesterCellProps> = ({
   courses,
   isOver,
   draggingId,
+  locked,
   onDragStart,
   onDragOver,
   onDragLeave,
@@ -31,17 +33,18 @@ export const SemesterCell: React.FC<SemesterCellProps> = ({
 }) => {
   return (
     <div
-      className={`semester-cell ${isOver ? 'semester-cell--over' : ''}`}
-      onDragOver={e => onDragOver(e, cellId)}
-      onDragLeave={() => onDragLeave(cellId)}
-      onDrop={e => onDrop(e, cellId)}
-      onDragEnd={onDragEnd}
+      className={`semester-cell ${isOver && !locked ? 'semester-cell--over' : ''}`}
+      onDragOver={locked ? undefined : e => onDragOver(e, cellId)}
+      onDragLeave={locked ? undefined : () => onDragLeave(cellId)}
+      onDrop={locked ? undefined : e => onDrop(e, cellId)}
+      onDragEnd={locked ? undefined : onDragEnd}
     >
       {courses.map(course => (
         <CourseCard
           key={course.id}
           course={course}
           dragging={draggingId === course.id}
+          locked={locked}
           onDragStart={onDragStart}
           onDelete={onDelete}
           onEdit={onEdit}

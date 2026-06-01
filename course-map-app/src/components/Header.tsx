@@ -12,6 +12,8 @@ interface HeaderProps {
   onAddCourse: () => void;
   onExport: () => void;
   onImportGeneral: () => void;
+  locked: boolean;
+  onLockToggle: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,6 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
   currentYear, onYearChange,
   view, onViewChange,
   onAddCourse, onExport, onImportGeneral,
+  locked, onLockToggle,
 }) => {
   const now = new Date().getFullYear();
   const yearOptions = [now - 2, now - 1, now, now + 1];
@@ -52,6 +55,14 @@ export const Header: React.FC<HeaderProps> = ({
             : <option value="">加载中…</option>
           }
         </select>
+
+        <button
+          className={locked ? 'btn-lock btn-lock--locked' : 'btn-lock'}
+          onClick={onLockToggle}
+          title={locked ? '已定稿，点击解锁' : '点击定稿'}
+        >
+          {locked ? '🔒 已定稿' : '定稿'}
+        </button>
       </div>
 
       <div className="header-right">
@@ -65,12 +76,15 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => onViewChange('stats')}
           >统计分析</button>
         </div>
-        {view === 'map' && (
+        {view === 'map' && !locked && (
           <>
             <button className="btn-import-general" onClick={onImportGeneral}>导入通识课程</button>
             <button className="btn-add" onClick={onAddCourse}>添加课程</button>
             <button className="btn-export" onClick={onExport}>导出地图</button>
           </>
+        )}
+        {view === 'map' && locked && (
+          <button className="btn-export" onClick={onExport}>导出地图</button>
         )}
       </div>
     </header>
